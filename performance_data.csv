@@ -1,0 +1,10 @@
+Language,Task,Execution Time (s),CPU Time (s),Estimated CPU Usage (%)
+C,Dijkstra,0.17,0.106,62.72
+Java,Dijkstra,0.933,0.627,67.22
+Python,Dijkstra,0.058,0.054,93.05
+C,Fibonacci,0.128,0.113,88.51
+Java,Fibonacci,0.521,0.483,92.8
+Python,Fibonacci,4.308,4.219,97.95
+C,IO,0.117,0.114,97.17
+Java,IO,0.448,0.456,101.76
+Python,IO,2.283,2.175,95.29
