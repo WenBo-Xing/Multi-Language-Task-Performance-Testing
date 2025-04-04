@@ -1,37 +1,40 @@
 #!/bin/zsh
 
-echo "==============================="
-echo "初始化 Git 仓库..."
-git init
+# 设置 Git 用户信息（如果没配置）
+git config user.name >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "🛠️ 检测到未配置 Git 用户信息，正在设置..."
+  git config --global user.name "Wenbo Xing"
+  git config --global user.email "wenboxing364@gmail.com"
+fi
 
 echo "==============================="
-echo "创建 README 文件..."
-echo "# Multi-Language-Task-Performance-Testing" > README.md
-
-echo "==============================="
-echo "添加所有文件..."
+echo "📂 添加所有更改..."
 git add .
 
 echo "==============================="
-read "commit_msg?请输入提交信息（默认：first commit）："
+read "commit_msg?📝 请输入提交信息（默认：更新）："
 if [ -z "$commit_msg" ]; then
-  commit_msg="first commit"
+  commit_msg="更新"
 fi
 
-echo "提交中..."
+echo "📤 提交中..."
 git commit -m "$commit_msg"
 
 echo "==============================="
-echo "切换分支为 main..."
-git branch -M main
+echo "🌐 正在通过 SSH 推送到 GitHub..."
 
-echo "==============================="
-echo "绑定远程仓库..."
-git remote add origin https://github.com/WenBo-Xing/Multi-Language-Task-Performance-Testing.git
+# 设置远程仓库为 SSH 地址（防止忘记）
+git remote set-url origin git@github.com:WenBo-Xing/Multi-Language-Task-Performance-Testing.git
 
-echo "==============================="
-echo "正在推送到 GitHub..."
-git push -u origin main
+# 自动判断是否需要设置 upstream 分支
+branch=$(git symbolic-ref --short HEAD)
+git push --set-upstream origin "$branch" 2>/dev/null || git push
 
-echo "==============================="
-echo "✅ 上传完成！"
+if [ $? -eq 0 ]; then
+  echo "==============================="
+  echo "✅ 推送成功！你可以去 GitHub 上查看更新啦！"
+else
+  echo "==============================="
+  echo "❌ 推送失败，请检查网络或远程仓库设置。"
+fi
